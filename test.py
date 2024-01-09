@@ -11,7 +11,7 @@ import cv2
 import torch
 import argparse
 
-import utils.util_githubupload as util
+import Dataset.data_utils as util
 import models.archs.DfRes_seprecon_selfattn_nores_nlsa as DfRes_arch_nores_nlsa
 
 import time
