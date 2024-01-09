@@ -11,19 +11,10 @@ import cv2
 import torch
 import argparse
 
-import utils.util as util
-import data.util_ucf101 as data_util
+import utils.util_githubupload as util
 import models.archs.DfRes_seprecon_selfattn_nores_nlsa as DfRes_arch_nores_nlsa
 
 import time
-from skimage.metrics import structural_similarity,peak_signal_noise_ratio
-      
-def calc_ssim(target,output):
-    return structural_similarity(target, output, multichannel=True, gaussian_weights=True, sigma=1.5, use_sample_covariance=False)
-    
-def calc_psnr(target,output):
-    return peak_signal_noise_ratio(target, output)
-
 def main(args):
     #################
     # configurations
@@ -87,10 +78,10 @@ def main(args):
             util.mkdirs(save_subfolder)
 
         #### read LQ and GT images
-        imgs_LQ = data_util.read_img_seq(subfolder)
+        imgs_LQ = util.read_img_seq(subfolder)
         img_GT_l = []
         for img_GT_path in sorted(glob.glob(osp.join(subfolder_GT, '*'))):
-            img_GT_l.append(data_util.read_img(None, img_GT_path))
+            img_GT_l.append(util.read_img(None, img_GT_path))
 
         avg_psnr, avg_psnr_sub = 0, []
         avg_ssim, avg_ssim_sub = 0, []
@@ -111,7 +102,7 @@ def main(args):
             print(Bufinit_idx, img_idx, max_idx, Sqmax_idx, N_in)
             img_name = osp.splitext(osp.basename(img_path))[0]
 
-            select_idx = data_util.index_generation_evenodd(Bufinit_idx, img_idx, max_idx, N_in, padding=padding)
+            select_idx = util.index_generation_evenodd(Bufinit_idx, img_idx, max_idx, N_in, padding=padding)
             imgs_in = []
             for v in select_idx:
                 print('last3v:',v)
@@ -146,8 +137,8 @@ def main(args):
             
             output = output / 255.
             GT = np.copy(img_GT_l[img_idx//2])
-            crt_psnr = calc_psnr(GT,output)
-            crt_ssim = calc_ssim(GT,output)
+            crt_psnr = util.calc_psnr(GT,output)
+            crt_ssim = util.calc_ssim(GT,output)
             logger.info('{:3d} - {:25} \tPSNR: {:.6f} dB \tSSIM: {:.6f} \tTIME: {:.6f} s'.format(img_idx + 1, img_name, crt_psnr, crt_ssim, total_time))
 
             avg_psnr_sub.append(crt_psnr)
