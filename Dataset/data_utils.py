@@ -209,3 +209,31 @@ def index_generation_evenodd(Bufinit_idx,crt_i, max_n, N, padding='reflection'):
     print('Newlist:',return_l)
     return return_l
 
+def make_layer(block, n_layers):
+    layers = []
+    for _ in range(n_layers):
+        layers.append(block())
+    return nn.Sequential(*layers)
+
+
+class ResidualBlock_noBN(nn.Module):
+    '''Residual block w/o BN
+    ---Conv-ReLU-Conv-+-
+     |________________|
+    '''
+
+    def __init__(self, nf=64):
+        super(ResidualBlock_noBN, self).__init__()
+        self.conv1 = nn.Conv2d(nf, nf, 3, 1, 1, bias=True)
+        self.conv2 = nn.Conv2d(nf, nf, 3, 1, 1, bias=True)
+
+        # initialization
+        initialize_weights([self.conv1, self.conv2], 0.1)
+
+    def forward(self, x):
+        #print('x:',x.shape)
+        identity = x
+        out = F.relu(self.conv1(x), inplace=True)
+        out = self.conv2(out)
+        #print('out:',out.shape)
+        return identity + out
