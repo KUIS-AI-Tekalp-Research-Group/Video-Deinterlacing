@@ -1,1 +1,19 @@
+If you find our code is helpful to your research or work, please consider referring to our papers:
 
+@inproceedings{ji2022multi,
+  title={Multi-Field De-Interlacing Using Deformable Convolution Residual Blocks and Self-Attention},
+  author={Ji, Ronglei and Tekalp, A Murat},
+  booktitle={2022 IEEE International Conference on Image Processing (ICIP)},
+  pages={901--905},
+  year={2022},
+  organization={IEEE}
+}
+
+@inproceedings{ji2021learned,
+  title={Learned multi-field de-interlacing with feature alignment via deformable residual convolution blocks},
+  author={Ji, Ronglei and Tekalp, A Murat},
+  booktitle={2021 International Conference on Visual Communications and Image Processing (VCIP)},
+  pages={1--5},
+  year={2021},
+  organization={IEEE}
+}
